@@ -3,10 +3,10 @@
 -- (re)start. pcall: a re-arm can fire while clothing's export host is mid-restart → swallow the transient.
 -- (clothing v0.1 has no persistence → no dbMigrate yet; add when it stores data.)
 local function arm()
-    if GetResourceState('atena-std-clothing') ~= 'started' then return end
+    if GetResourceState('std-clothing') ~= 'started' then return end
     pcall(function()
-        exports['atena-std-clothing']:setAuthorizer(function(src, _action) return exports.atena:can(src, 'debug') end)
-        exports['atena-std-clothing']:setGuard(function(opts, src, args) return exports.atena:checkInbound(opts, src, args) end)
+        exports['std-clothing']:setAuthorizer(function(src, _action) return exports.atena:can(src, 'debug') end)
+        exports['std-clothing']:setGuard(function(opts, src, args) return exports.atena:checkInbound(opts, src, args) end)
     end)
 end
 arm()

@@ -2,9 +2,9 @@
 -- soft: if it's down the provider returns nil → clothing falls back to its neutral default (works alone).
 -- No permanent bail; inject when clothing is up, re-inject on (re)start of clothing/weather.
 local function arm()
-    if GetResourceState('atena-std-clothing') ~= 'started' then return end
+    if GetResourceState('std-clothing') ~= 'started' then return end
     pcall(function()
-        exports['atena-std-clothing']:setEnvironmentProvider(function()
+        exports['std-clothing']:setEnvironmentProvider(function()
             if GetResourceState('weather') ~= 'started' then return nil end
             local ok, e = pcall(function() return exports.weather:environment() end)
             return (ok and e) or nil

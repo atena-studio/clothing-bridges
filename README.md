@@ -1,6 +1,6 @@
-# atena-bridges-clothing
+# clothing-bridges
 
-Integration bridges for the `atena-std-clothing` standalone resource, one per framework.
+Integration bridges for the `std-clothing` standalone resource, one per framework.
 
 | Framework | Bridge | Status |
 |-----------|--------|--------|
@@ -9,8 +9,14 @@ Integration bridges for the `atena-std-clothing` standalone resource, one per fr
 | QBCore    | `qbcore-bridge-clothing`| planned |
 | OX        | `ox-bridge-clothing`    | planned |
 
-Each bridge is integration glue (calls `exports['atena-std-clothing']:*` + the framework's API). The standalone
+Each bridge is integration glue (calls `exports['std-clothing']:*` + the framework's API). The standalone
 stays pure/agnostic; the bridge does the wiring. Advanced atena-only mechanics that a framework can't map
 are left as a documented comment in that framework's bridge.
 
-Install the standalone (`atena-std-clothing`) + the ONE bridge matching your framework.
+Install the standalone (`std-clothing`) + the ONE bridge matching your framework.
+
+## Get the standalone (required)
+
+This bridge is free integration glue and needs the **std-clothing** standalone resource (sold separately):
+
+➡️ **https://github.com/atena-studio/std-clothing**
