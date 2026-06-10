@@ -10,4 +10,4 @@ local function arm()
     end)
 end
 arm()
-AddEventHandler('onResourceStart', function(res) if res == 'atena' or res == 'clothing' then arm() end end)
+AddEventHandler('onResourceStart', function(res) if res == 'atena' or res == 'std-clothing' then arm() end end)

@@ -5,11 +5,11 @@ local function arm()
     if GetResourceState('std-clothing') ~= 'started' then return end
     pcall(function()
         exports['std-clothing']:setEnvironmentProvider(function()
-            if GetResourceState('weather') ~= 'started' then return nil end
-            local ok, e = pcall(function() return exports.weather:environment() end)
+            if GetResourceState('std-weather') ~= 'started' then return nil end
+            local ok, e = pcall(function() return exports['std-weather']:environment() end)
             return (ok and e) or nil
         end)
     end)
 end
 arm()
-AddEventHandler('onResourceStart', function(res) if res == 'clothing' or res == 'weather' then arm() end end)
+AddEventHandler('onResourceStart', function(res) if res == 'std-clothing' or res == 'std-weather' then arm() end end)
