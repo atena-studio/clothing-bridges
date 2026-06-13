@@ -40,7 +40,7 @@ local function close() if atenaUp() then exports.atena:uiDebugPanel(PANEL, nil) 
 
 -- registration (robust: thread one-shot + events) — bridge-registration.md.
 -- toggle entry: the launcher badge mirrors whether the card is open (debugSet keeps it true).
-local function reg() if atenaUp() then exports.atena:debugAdd({ id = OPEN_ID, group = 'world', label = 'Clothing', icon = 'shirt', toggle = true, value = open }) end end
+local function reg() if atenaUp() then exports.atena:debugAdd({ id = OPEN_ID, group = 'world', label = 'Clothing', icon = 'shirt', toggle = true, value = open, peekWin = PANEL }) end end
 local function badge() if atenaUp() then exports.atena:debugSet(OPEN_ID, open) end end
 CreateThread(function() while not atenaUp() do Wait(250) end; reg() end)
 AddEventHandler('onResourceStart', function(res) if res == 'atena' then reg() end end)
@@ -55,6 +55,15 @@ AddEventHandler('atena:debug:invoke', function(id)
 end)
 AddEventHandler('atena:debug:panelClosed', function(p) if p == PANEL then open = false; badge() end end)
 CreateThread(function() while true do if open then push() end; Wait(2000) end end)
+
+-- hover-PEEK (view-only): render the card content WITHOUT opening it for real (no open flag, no
+-- badge); peekEnd clears it. The real open / live refresh belong to invoke (pin).
+AddEventHandler('atena:debug:peek', function(win)
+    if win == PANEL and not open and atenaUp() then exports.atena:uiDebugPanel(PANEL, { title = 'CLOTHING', rows = rows() }) end
+end)
+AddEventHandler('atena:debug:peekEnd', function(win)
+    if win == PANEL and not open and atenaUp() then exports.atena:uiDebugPanel(PANEL, nil) end
+end)
 
 -- dev command: wear a visor helmet (prop slot 0) on the local ped, to test garment/insulation lookups.
 -- /helmet [drawable] [texture] → wear (defaults: freemode-male visor helmet); /helmet off → remove.
