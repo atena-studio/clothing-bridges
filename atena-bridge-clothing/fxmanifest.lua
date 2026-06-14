@@ -14,6 +14,7 @@ version '0.0.1'
 
 server_scripts {
     'server/main.lua',          -- seams: authorizer + inbound guard (atena's policy)
+    'server/register.lua',      -- register clothing's garment item-types on the std-inventory engine
 }
 client_scripts {
     'client/env.lua',           -- feed clothing's environment seam from weather:environment

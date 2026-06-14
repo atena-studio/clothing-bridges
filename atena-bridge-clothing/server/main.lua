@@ -11,3 +11,11 @@ local function arm()
 end
 arm()
 AddEventHandler('onResourceStart', function(res) if res == 'atena' or res == 'std-clothing' then arm() end end)
+
+-- TODO (insulation seam): fill exports['std-clothing']:setInsulationProvider(fn) so worn-garment warmth
+-- becomes server-authoritative. fn(src) must resolve src → the player's custodia → its worn garment ITEMS
+-- (std-inventory graph) → sum each item's type insulation (exports['std-clothing']:itemTypes()[item.type]
+-- .insulation), take the BEST waterproof, clamp the sum to Config.maxInsulation, and return (insulation,
+-- bestWaterproof). Blocked on the player↔custodia binding (atena-bridge-custodia TODO: bind bodies to
+-- Atena.Players). Until then the standalone default (0,0) applies — thermal runs on environment only, no
+-- clothing warmth. Wire here once a src→custodia resolver exists.

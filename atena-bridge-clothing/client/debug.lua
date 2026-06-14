@@ -1,11 +1,10 @@
 -- atena-bridge-clothing — CLIENT: thermal debug card (atena window manager). READS the authoritative state
--- (LocalPlayer.state.clothingTemp) + clothing's read-only exports → body temp, status, insulation, wetness,
--- worn garments (insulation + pockets). View-only. ROBUST REGISTRATION (no permanent bail; thread + events).
+-- (LocalPlayer.state.clothingTemp) → body temp, status, target, insulation, activity, wetness. View-only.
+-- ROBUST REGISTRATION (no permanent bail; thread + events).
 
 local OPEN_ID, PANEL = 'std-clothing:open', 'std-clothing:panel'
 local open = false
 local function atenaUp()    return GetResourceState('atena') == 'started' end
-local function clothingUp() return GetResourceState('std-clothing') == 'started' end
 
 local function rows()
     local st = LocalPlayer.state.clothingTemp or {}
@@ -21,17 +20,7 @@ local function rows()
         { key = 'insulation', value = ('%.1f'):format(st.ins or 0.0), tone = 'dim' },
         { key = 'activity',   value = ('+%.1f°C'):format(st.act or 0.0), tone = 'dim' },
         { key = 'wetness',    value = ('%.0f%%'):format((st.wet or 0.0) * 100.0), tone = ((st.wet or 0) > 0.05 and 'warn' or 'dim') },
-        { key = 'worn', kind = 'header' },
     }
-    -- worn garments (slot → drawable) with their insulation + pockets (the shared garment datum).
-    local okW, worn = pcall(function() return clothingUp() and exports['std-clothing']:worn() or {} end)
-    if okW and worn then
-        for slot, d in pairs(worn) do
-            local g = (clothingUp() and exports['std-clothing']:garment(slot, d)) or {}
-            r[#r + 1] = { key = ('slot %d'):format(slot),
-                          value = ('drw %d · ins %.1f · pkt %d'):format(d, g.insulation or 0.0, g.pockets or 0), tone = 'dim' }
-        end
-    end
     return r
 end
 
